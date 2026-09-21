@@ -1,0 +1,18 @@
+---
+image: python:$PYTHON_VERSION
+
+build:
+  before_script:
+    - apt-get update
+    - apt-get install -y libgirepository1.0-dev ninja-build
+    - pip install meson pygobject
+  script:
+    - meson --prefix=/usr builddir
+    - cd builddir
+    - meson install
+  parallel:
+    matrix:
+      - PYTHON_VERSION:
+        - '3.8'
+        - '3.9'
+        - '3.10'
